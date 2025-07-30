@@ -12,7 +12,8 @@ import { lastValueFrom } from 'rxjs';
 export class AuthService {
   private _token: WritableSignal<string | null> = signal<string | null>(null);
 
-  constructor(private http: HttpClient) {}
+  // eslint-disable-next-line no-unused-vars
+  constructor(private _http: HttpClient) {}
 
   /**
    * Logs in the user with given credentials.
@@ -25,7 +26,7 @@ export class AuthService {
     // Demo endpoint -- replace with your real one as needed!
     const loginUrl = '/api/auth/login';
     try {
-      const response: any = await lastValueFrom(this.http.post(loginUrl, { email, password }));
+      const response: any = await lastValueFrom(this._http.post(loginUrl, { email, password }));
       // Correct way to update signal value (writable signal):
       this._token.set(response?.token || null);
       // Optionally store in localStorage for browser
