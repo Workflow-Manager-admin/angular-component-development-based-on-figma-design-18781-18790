@@ -1,6 +1,7 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 /**
  * AuthService handles user authentication, login and JWT token management for the session.
@@ -23,10 +24,12 @@ export class AuthService {
    */
   // PUBLIC_INTERFACE
   async login(email: string, password: string): Promise<void> {
-    // Demo endpoint -- replace with your real one as needed!
-    const loginUrl = '/api/auth/login';
+    // Use environment.apiUrl to target the real backend
+    const loginUrl = `${environment.apiUrl}/auth/login`;
     try {
-      const response: any = await lastValueFrom(this._http.post(loginUrl, { email, password }));
+      const response: any = await lastValueFrom(
+        this._http.post(loginUrl, { email, password })
+      );
       // Correct way to update signal value (writable signal):
       this._token.set(response?.token || null);
       // Optionally store in localStorage for browser
